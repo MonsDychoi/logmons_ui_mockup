@@ -1,0 +1,27 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//c/dev_log/workspace/**)",
+      "Bash(dir /B)",
+      "Bash(git clone:*)",
+      "Bash(rsync:*)",
+      "Bash(pnpm install:*)",
+      "Bash(netstat:*)",
+      "Bash(findstr:*)",
+      "Bash(taskkill:*)",
+      "Bash(npm run dev:*)",
+      "Bash(cat:*)",
+      "Bash(pnpm remove:*)",
+      "Bash(npm run build:*)",
+      "Bash(timeout 30 bash:*)",
+      "Bash(dir /B /S C:dev_logworkspacetailadmin-referencesrccomponentsCharts)",
+      "Bash(pnpm add:*)",
+      "Bash(pnpm build)",
+      "Bash(npx shadcn@latest add:*)",
+      "Bash(pnpm dlx shadcn@latest add:*)",
+      "Bash(curl:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}
