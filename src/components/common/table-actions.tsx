@@ -1,9 +1,9 @@
 import { Button } from '@/components/ui/button';
-import { Eye, PlayCircle, Square, Trash2, Edit, RotateCcw } from 'lucide-react';
+import { Eye, PlayCircle, Square, Trash2, Edit, RotateCcw, CheckCircle } from 'lucide-react';
 import Link from 'next/link';
 
 export interface ActionButton {
-  type: 'view' | 'edit' | 'start' | 'stop' | 'restart' | 'delete' | 'retry';
+  type: 'view' | 'edit' | 'start' | 'stop' | 'restart' | 'delete' | 'retry' | 'custom';
   href?: string;
   onClick?: () => void;
   disabled?: boolean;
@@ -17,7 +17,8 @@ const ACTION_CONFIG = {
   stop: { icon: Square, label: '정지', className: '' },
   restart: { icon: PlayCircle, label: '재시작', className: '' },
   delete: { icon: Trash2, label: '삭제', className: 'text-destructive' },
-  retry: { icon: RotateCcw, label: '재시도', className: '' }
+  retry: { icon: RotateCcw, label: '재시도', className: '' },
+  custom: { icon: CheckCircle, label: '선택', className: '' }
 };
 
 interface TableActionsProps {

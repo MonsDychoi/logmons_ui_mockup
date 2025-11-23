@@ -50,13 +50,22 @@ export default async function RootLayout({
       </head>
       <body
         className={cn(
-          'bg-background overflow-hidden overscroll-none font-sans antialiased',
+          'bg-background font-sans antialiased',
           activeThemeValue ? `theme-${activeThemeValue}` : '',
           isScaled ? 'theme-scaled' : '',
           fontVariables
         )}
       >
-        <NextTopLoader color='var(--primary)' showSpinner={false} />
+        <NextTopLoader
+          color='var(--primary)'
+          showSpinner={false}
+          height={3}
+          crawl={true}
+          crawlSpeed={200}
+          initialPosition={0.08}
+          easing="ease"
+          speed={200}
+        />
         <NuqsAdapter>
           <ThemeProvider
             attribute='class'

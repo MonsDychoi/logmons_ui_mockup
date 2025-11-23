@@ -40,106 +40,106 @@ export const navItems: NavItem[] = [
   },
   {
     title: '수집관리',
-    url: '/dashboard/collection',
+    url: '/collection',
     icon: 'logs',
     isActive: false,
     shortcut: ['c', 'o'],
     items: [
       {
         title: '수집 에이전트 관리',
-        url: '/dashboard/collection/agents',
+        url: '/collection/agents',
         shortcut: ['c', 'a']
       },
       {
         title: '수집 대상 관리',
-        url: '/dashboard/collection/targets',
+        url: '/collection/targets',
         shortcut: ['c', 't']
       },
       {
         title: '전송 채널 관리',
-        url: '/dashboard/collection/channels',
+        url: '/collection/channels',
         shortcut: ['c', 'c']
       },
       {
         title: '배포 이력 관리',
-        url: '/dashboard/collection/deployments',
+        url: '/collection/deployments',
         shortcut: ['c', 'd']
       }
     ]
   },
   {
     title: '분석관리',
-    url: '/dashboard/analysis',
+    url: '/analysis',
     icon: 'analytics',
     isActive: false,
     shortcut: ['a', 'n'],
     items: [
       {
         title: '인덱스 관리',
-        url: '/dashboard/analysis/indices',
+        url: '/analysis/indices',
         shortcut: ['a', 'i']
       },
       {
         title: '로그(분석) 검색',
-        url: '/dashboard/analysis/search',
+        url: '/analysis/search',
         shortcut: ['a', 's']
       },
       {
         title: '쿼리 콘솔(Dev Tool)',
-        url: '/dashboard/analysis/console',
+        url: '/analysis/console',
         shortcut: ['a', 'c']
       }
     ]
   },
   {
     title: '사용자관리',
-    url: '/dashboard/users',
+    url: '/users',
     icon: 'users',
     shortcut: ['u', 's'],
     isActive: false,
     items: [
       {
         title: '계정 관리',
-        url: '/dashboard/users/accounts',
+        url: '/users/accounts',
         shortcut: ['u', 'a']
       },
       {
         title: '권한 관리',
-        url: '/dashboard/users/permissions',
+        url: '/users/permissions',
         shortcut: ['u', 'p']
       },
       {
         title: '사용자 로그 이력',
-        url: '/dashboard/users/logs',
+        url: '/users/logs',
         shortcut: ['u', 'l']
       }
     ]
   },
   {
     title: '관리도구 설정',
-    url: '/dashboard/settings',
+    url: '/settings',
     icon: 'settings',
     shortcut: ['s', 't'],
     isActive: false,
     items: [
       {
         title: 'CEP',
-        url: '/dashboard/settings/cep',
+        url: '/settings/cep',
         shortcut: ['s', 'c']
       },
       {
         title: '이상 감지',
-        url: '/dashboard/settings/anomaly',
+        url: '/settings/anomaly',
         shortcut: ['s', 'a']
       },
       {
         title: 'RBS(Rule-Based System)',
-        url: '/dashboard/settings/rbs',
+        url: '/settings/rbs',
         shortcut: ['s', 'r']
       },
       {
         title: '예약 작업 설정',
-        url: '/dashboard/settings/scheduled-jobs',
+        url: '/settings/scheduled-jobs',
         shortcut: ['s', 'j']
       }
     ]
