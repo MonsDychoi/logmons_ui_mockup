@@ -475,8 +475,8 @@ export function Step2DetailSettings({ formData, updateFormData, setFormData }: S
             </div>
             <p className="text-xs text-muted-foreground">
               {formData.protocol === 'tcp'
-                ? '[20_______] MiB (TCP) 또는 [10_______] KiB (UDP)'
-                : '[20_______] MiB (TCP) 또는 [10_______] KiB (UDP)'}
+                ? '20 MiB (TCP) 또는 10 KiB (UDP)'
+                : '20 MiB (TCP) 또는 10 KiB (UDP)'}
             </p>
           </div>
 

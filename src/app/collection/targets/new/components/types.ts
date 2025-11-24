@@ -45,6 +45,7 @@ export interface TargetFormData {
   jsonKeysUnderRoot: boolean;
   jsonOverwriteKeys: boolean;
   jsonAddErrorKey: boolean;
+  dropEvent: boolean;
   jsonTargetField: string;
   jsonStorageLocation: 'root' | 'nested';
   jsonNestedFieldName: string;

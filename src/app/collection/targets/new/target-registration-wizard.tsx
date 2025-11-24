@@ -61,6 +61,7 @@ export function TargetRegistrationWizard() {
     jsonKeysUnderRoot: false,
     jsonOverwriteKeys: true,
     jsonAddErrorKey: false,
+    dropEvent: false,
     jsonTargetField: 'message',
     jsonStorageLocation: 'root',
     jsonNestedFieldName: 'parsed',
