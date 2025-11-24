@@ -253,10 +253,10 @@ export function Step3ParsingRules({ formData, updateFormData, setFormData }: Ste
             <div className="flex items-center space-x-2">
               <Checkbox
                 id="json-drop-event"
-                checked={false}
-                disabled
+                checked={formData.dropEvent}
+                onCheckedChange={(checked) => updateFormData('dropEvent', checked as boolean)}
               />
-              <Label htmlFor="json-drop-event" className="text-sm font-normal text-muted-foreground">
+              <Label htmlFor="json-drop-event" className="text-sm font-normal cursor-pointer">
                 파싱 실패 시 이벤트 삭제 (on_failure: drop_event)
               </Label>
             </div>

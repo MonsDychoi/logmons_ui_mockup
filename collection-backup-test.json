@@ -1,0 +1,362 @@
+{
+  "version": "1.0.0",
+  "exported_at": "2025-11-18T06:20:34.350Z",
+  "data": {
+    "agents": [
+      {
+        "id": "8b3f2965-6ae1-4820-bb73-ad418baefe4b",
+        "name": "Log-01",
+        "server_ip": "10.0.0.1",
+        "version": "v2.4.1",
+        "install_path": "/opt/logmons/agent",
+        "status": "normal",
+        "collection_rate": "98.5%",
+        "processed_events": 1234567,
+        "error_rate": "0.2%",
+        "last_connection": "2025-11-18T06:15:28.233534+00:00",
+        "created_at": "2025-11-18T06:16:28.233534+00:00",
+        "updated_at": "2025-11-18T06:16:28.233534+00:00"
+      },
+      {
+        "id": "a976cbbd-feff-429f-8d99-2eeea60ad886",
+        "name": "Log-02",
+        "server_ip": "10.0.0.2",
+        "version": "v2.4.1",
+        "install_path": "/opt/logmons/agent",
+        "status": "normal",
+        "collection_rate": "99.1%",
+        "processed_events": 987654,
+        "error_rate": "0.1%",
+        "last_connection": "2025-11-18T06:11:28.233534+00:00",
+        "created_at": "2025-11-18T06:16:28.233534+00:00",
+        "updated_at": "2025-11-18T06:16:28.233534+00:00"
+      },
+      {
+        "id": "9292618a-9d10-4635-843a-d19bef687e00",
+        "name": "Log-03",
+        "server_ip": "10.0.0.1",
+        "version": "v2.4.0",
+        "install_path": "/opt/logmons/agent",
+        "status": "disconnected",
+        "collection_rate": null,
+        "processed_events": 0,
+        "error_rate": null,
+        "last_connection": null,
+        "created_at": "2025-11-18T06:16:28.233534+00:00",
+        "updated_at": "2025-11-18T06:16:28.233534+00:00"
+      },
+      {
+        "id": "c1f1b837-3ab3-4cab-a41d-b2560feca34f",
+        "name": "Log-04",
+        "server_ip": "10.0.0.2",
+        "version": "v2.3.9",
+        "install_path": "/opt/logmons/agent",
+        "status": "disconnected",
+        "collection_rate": null,
+        "processed_events": 0,
+        "error_rate": null,
+        "last_connection": null,
+        "created_at": "2025-11-18T06:16:28.233534+00:00",
+        "updated_at": "2025-11-18T06:16:28.233534+00:00"
+      },
+      {
+        "id": "6b2e43d4-3246-45bd-bdad-cd46c0b58a45",
+        "name": "Log-05",
+        "server_ip": "10.0.0.3",
+        "version": "v2.4.1",
+        "install_path": "/opt/logmons/agent",
+        "status": "error",
+        "collection_rate": "85.3%",
+        "processed_events": 456789,
+        "error_rate": "2.5%",
+        "last_connection": "2025-11-18T05:46:28.233534+00:00",
+        "created_at": "2025-11-18T06:16:28.233534+00:00",
+        "updated_at": "2025-11-18T06:16:28.233534+00:00"
+      }
+    ],
+    "targets": [
+      {
+        "id": "ca5bad63-5740-4207-aefa-6f50ac319cac",
+        "agent_id": "8b3f2965-6ae1-4820-bb73-ad418baefe4b",
+        "name": "/var/log/application.log",
+        "type": "file",
+        "status": "normal",
+        "size": "2.3GB",
+        "last_collected": "2025-11-18T06:15:28.233534+00:00",
+        "collection_config": null,
+        "created_at": "2025-11-18T06:16:28.233534+00:00",
+        "updated_at": "2025-11-18T06:16:28.233534+00:00"
+      },
+      {
+        "id": "16389b5a-2352-4f4d-b1fb-2ffde79b38c9",
+        "agent_id": "8b3f2965-6ae1-4820-bb73-ad418baefe4b",
+        "name": "/var/log/system.log",
+        "type": "file",
+        "status": "normal",
+        "size": "1.1GB",
+        "last_collected": "2025-11-18T06:15:28.233534+00:00",
+        "collection_config": null,
+        "created_at": "2025-11-18T06:16:28.233534+00:00",
+        "updated_at": "2025-11-18T06:16:28.233534+00:00"
+      },
+      {
+        "id": "7268a300-6c62-4405-802c-45e78c0f34f8",
+        "agent_id": "8b3f2965-6ae1-4820-bb73-ad418baefe4b",
+        "name": "/var/log/error.log",
+        "type": "file",
+        "status": "warning",
+        "size": "245MB",
+        "last_collected": "2025-11-18T06:11:28.233534+00:00",
+        "collection_config": null,
+        "created_at": "2025-11-18T06:16:28.233534+00:00",
+        "updated_at": "2025-11-18T06:16:28.233534+00:00"
+      },
+      {
+        "id": "0a0a17a4-aef8-4050-bfeb-93d4449508ed",
+        "agent_id": "a976cbbd-feff-429f-8d99-2eeea60ad886",
+        "name": "/var/log/nginx/access.log",
+        "type": "file",
+        "status": "normal",
+        "size": "5.2GB",
+        "last_collected": "2025-11-18T06:11:28.233534+00:00",
+        "collection_config": null,
+        "created_at": "2025-11-18T06:16:28.233534+00:00",
+        "updated_at": "2025-11-18T06:16:28.233534+00:00"
+      },
+      {
+        "id": "ce6ad2cb-75b5-48ca-bb36-eb1bea1178e5",
+        "agent_id": "6b2e43d4-3246-45bd-bdad-cd46c0b58a45",
+        "name": "/var/log/database.log",
+        "type": "file",
+        "status": "error",
+        "size": "892MB",
+        "last_collected": "2025-11-18T05:46:28.233534+00:00",
+        "collection_config": null,
+        "created_at": "2025-11-18T06:16:28.233534+00:00",
+        "updated_at": "2025-11-18T06:16:28.233534+00:00"
+      }
+    ],
+    "channels": [
+      {
+        "id": "96eddbd1-c660-4f73-a5f7-87f6185fab2a",
+        "channel_name": "log-collection-01",
+        "topic_name": "logs.application",
+        "partitions": 3,
+        "offset_value": 1234567,
+        "status": "normal",
+        "message_rate": "1.2K msg/s",
+        "broker_config": null,
+        "created_at": "2025-11-18T06:16:28.233534+00:00",
+        "updated_at": "2025-11-18T06:16:28.233534+00:00"
+      },
+      {
+        "id": "a3148a06-3f23-4ca1-acf3-8e7df66c187c",
+        "channel_name": "log-collection-02",
+        "topic_name": "logs.system",
+        "partitions": 3,
+        "offset_value": 987654,
+        "status": "normal",
+        "message_rate": "850 msg/s",
+        "broker_config": null,
+        "created_at": "2025-11-18T06:16:28.233534+00:00",
+        "updated_at": "2025-11-18T06:16:28.233534+00:00"
+      },
+      {
+        "id": "ee91cffe-7fb6-4060-b5d2-e9895a3df478",
+        "channel_name": "log-collection-03",
+        "topic_name": "logs.error",
+        "partitions": 2,
+        "offset_value": 456789,
+        "status": "normal",
+        "message_rate": "320 msg/s",
+        "broker_config": null,
+        "created_at": "2025-11-18T06:16:28.233534+00:00",
+        "updated_at": "2025-11-18T06:16:28.233534+00:00"
+      },
+      {
+        "id": "53de56c5-66a5-4e34-a832-fa51401c5c84",
+        "channel_name": "log-collection-04",
+        "topic_name": "logs.nginx",
+        "partitions": 4,
+        "offset_value": 2345678,
+        "status": "normal",
+        "message_rate": "1.8K msg/s",
+        "broker_config": null,
+        "created_at": "2025-11-18T06:16:28.233534+00:00",
+        "updated_at": "2025-11-18T06:16:28.233534+00:00"
+      },
+      {
+        "id": "e86700ca-0065-43f1-b1e5-047b590ca650",
+        "channel_name": "log-collection-05",
+        "topic_name": "logs.database",
+        "partitions": 2,
+        "offset_value": 654321,
+        "status": "warning",
+        "message_rate": "180 msg/s",
+        "broker_config": null,
+        "created_at": "2025-11-18T06:16:28.233534+00:00",
+        "updated_at": "2025-11-18T06:16:28.233534+00:00"
+      },
+      {
+        "id": "c0c049d4-a377-4d5c-8473-17601b986174",
+        "channel_name": "log-collection-06",
+        "topic_name": "logs.audit",
+        "partitions": 1,
+        "offset_value": 123456,
+        "status": "normal",
+        "message_rate": "95 msg/s",
+        "broker_config": null,
+        "created_at": "2025-11-18T06:16:28.233534+00:00",
+        "updated_at": "2025-11-18T06:16:28.233534+00:00"
+      },
+      {
+        "id": "ae5ee475-a59a-4969-826e-fe9ee8d4fbec",
+        "channel_name": "log-collection-07",
+        "topic_name": "logs.security",
+        "partitions": 2,
+        "offset_value": 789012,
+        "status": "normal",
+        "message_rate": "420 msg/s",
+        "broker_config": null,
+        "created_at": "2025-11-18T06:16:28.233534+00:00",
+        "updated_at": "2025-11-18T06:16:28.233534+00:00"
+      },
+      {
+        "id": "4acd65bc-1f36-4aa5-a1fd-dc33a34bc9df",
+        "channel_name": "log-collection-08",
+        "topic_name": "logs.analytics",
+        "partitions": 3,
+        "offset_value": 345678,
+        "status": "inactive",
+        "message_rate": "-",
+        "broker_config": null,
+        "created_at": "2025-11-18T06:16:28.233534+00:00",
+        "updated_at": "2025-11-18T06:16:28.233534+00:00"
+      },
+      {
+        "id": "a3724db2-19ad-430d-8b9c-317a0ccd0222",
+        "channel_name": "log-collection-09",
+        "topic_name": "logs.monitoring",
+        "partitions": 2,
+        "offset_value": 567890,
+        "status": "inactive",
+        "message_rate": "-",
+        "broker_config": null,
+        "created_at": "2025-11-18T06:16:28.233534+00:00",
+        "updated_at": "2025-11-18T06:16:28.233534+00:00"
+      },
+      {
+        "id": "ebd3ac9c-9577-4a5d-a792-ecf4daa1b435",
+        "channel_name": "log-collection-10",
+        "topic_name": "logs.backup",
+        "partitions": 1,
+        "offset_value": 234567,
+        "status": "normal",
+        "message_rate": "65 msg/s",
+        "broker_config": null,
+        "created_at": "2025-11-18T06:16:28.233534+00:00",
+        "updated_at": "2025-11-18T06:16:28.233534+00:00"
+      }
+    ],
+    "deployments": [
+      {
+        "id": "e6eab0df-d022-497c-a5cd-157170fb8b05",
+        "agent_id": "8b3f2965-6ae1-4820-bb73-ad418baefe4b",
+        "deployment_type": "install",
+        "version": "v2.4.1",
+        "status": "completed",
+        "started_at": "2025-11-11T06:16:28.233534+00:00",
+        "completed_at": "2025-11-11T06:21:28.233534+00:00",
+        "error_message": null,
+        "deployed_by": "admin",
+        "deployment_config": null,
+        "created_at": "2025-11-18T06:16:28.233534+00:00",
+        "updated_at": "2025-11-18T06:16:28.233534+00:00"
+      },
+      {
+        "id": "621170ba-6413-41ca-b6ca-f1a750d70ff7",
+        "agent_id": "a976cbbd-feff-429f-8d99-2eeea60ad886",
+        "deployment_type": "install",
+        "version": "v2.4.1",
+        "status": "completed",
+        "started_at": "2025-11-12T06:16:28.233534+00:00",
+        "completed_at": "2025-11-12T06:20:28.233534+00:00",
+        "error_message": null,
+        "deployed_by": "admin",
+        "deployment_config": null,
+        "created_at": "2025-11-18T06:16:28.233534+00:00",
+        "updated_at": "2025-11-18T06:16:28.233534+00:00"
+      },
+      {
+        "id": "1f20c9a3-da24-4dcf-b5d7-c15889b7235d",
+        "agent_id": "9292618a-9d10-4635-843a-d19bef687e00",
+        "deployment_type": "update",
+        "version": "v2.4.0",
+        "status": "failed",
+        "started_at": "2025-11-15T06:16:28.233534+00:00",
+        "completed_at": "2025-11-15T06:18:28.233534+00:00",
+        "error_message": null,
+        "deployed_by": "admin",
+        "deployment_config": null,
+        "created_at": "2025-11-18T06:16:28.233534+00:00",
+        "updated_at": "2025-11-18T06:16:28.233534+00:00"
+      },
+      {
+        "id": "e7e78f52-4217-4dca-80ac-a66e7803df63",
+        "agent_id": "6b2e43d4-3246-45bd-bdad-cd46c0b58a45",
+        "deployment_type": "install",
+        "version": "v2.4.1",
+        "status": "completed",
+        "started_at": "2025-11-13T06:16:28.233534+00:00",
+        "completed_at": "2025-11-13T06:22:28.233534+00:00",
+        "error_message": null,
+        "deployed_by": "admin",
+        "deployment_config": null,
+        "created_at": "2025-11-18T06:16:28.233534+00:00",
+        "updated_at": "2025-11-18T06:16:28.233534+00:00"
+      }
+    ],
+    "agent_activities": [
+      {
+        "id": "98006a83-a9fa-4474-80bb-70e8e914c440",
+        "agent_id": "8b3f2965-6ae1-4820-bb73-ad418baefe4b",
+        "action": "재시작",
+        "result": "success",
+        "details": "시스템 재시작",
+        "created_at": "2025-11-18T05:36:28.233534+00:00"
+      },
+      {
+        "id": "76593964-4d4e-4159-83cc-e6020a646c7d",
+        "agent_id": "8b3f2965-6ae1-4820-bb73-ad418baefe4b",
+        "action": "설정 업데이트",
+        "result": "success",
+        "details": "수집 주기 변경",
+        "created_at": "2025-11-18T05:41:28.233534+00:00"
+      },
+      {
+        "id": "85ca4e01-4d61-481d-a1f2-46cfa79daa3c",
+        "agent_id": "a976cbbd-feff-429f-8d99-2eeea60ad886",
+        "action": "수집 시작",
+        "result": "success",
+        "details": "nginx/access.log",
+        "created_at": "2025-11-18T05:44:28.233534+00:00"
+      },
+      {
+        "id": "220df585-a660-40cf-81c4-fb2f0eb6b764",
+        "agent_id": "6b2e43d4-3246-45bd-bdad-cd46c0b58a45",
+        "action": "수집 시작",
+        "result": "failed",
+        "details": "connection timeout",
+        "created_at": "2025-11-18T05:45:28.233534+00:00"
+      },
+      {
+        "id": "d496bb69-4343-461a-b12d-2c02d7460a27",
+        "agent_id": "8b3f2965-6ae1-4820-bb73-ad418baefe4b",
+        "action": "수집 시작",
+        "result": "success",
+        "details": "application.log",
+        "created_at": "2025-11-18T05:46:28.233534+00:00"
+      }
+    ]
+  }
+}
