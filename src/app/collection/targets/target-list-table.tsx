@@ -28,58 +28,41 @@ export function TargetListTable() {
     try {
       setLoading(true);
 
-      // Fetch agents and targets data
-      const [agentsRes, targetsRes] = await Promise.all([
-        fetch('/api/collection/agents'),
-        fetch('/api/collection/targets')
+      const { mockAPI } = await import('@/lib/mock-data/collection');
+      const [agents, targets] = await Promise.all([
+        mockAPI.getAgents(),
+        mockAPI.getTargets()
       ]);
 
-      const agentsResult = await agentsRes.json();
-      const targetsResult = await targetsRes.json();
+      // Group targets by agent
+      const agentTargetsMap: { [key: string]: AgentTarget } = {};
 
-      if (agentsResult.success && targetsResult.success) {
-        const agents = agentsResult.data || [];
-        const targets = targetsResult.data || [];
+      agents.forEach((agent) => {
+        agentTargetsMap[agent.id] = {
+          id: agent.id,
+          agentName: agent.name,
+          serverIp: agent.server_ip,
+          totalTargets: 0,
+          activeTargets: 0,
+          status: agent.status as StatusType,
+          lastCollected: '-'
+        };
+      });
 
-        console.log('Agents data:', agents);
-        console.log('Targets data:', targets);
-
-        // Group targets by agent
-        const agentTargetsMap: { [key: string]: AgentTarget } = {};
-
-        agents.forEach((agent: any) => {
-          agentTargetsMap[agent.id] = {
-            id: agent.id,
-            agentName: agent.name,
-            serverIp: agent.server_ip,
-            totalTargets: 0,
-            activeTargets: 0,
-            status: agent.status as StatusType,
-            lastCollected: '-'
-          };
-        });
-
-        // Count targets per agent
-        targets.forEach((target: any) => {
-          if (target.agent_id && agentTargetsMap[target.agent_id]) {
-            agentTargetsMap[target.agent_id].totalTargets++;
-            if (target.status === 'normal') {
-              agentTargetsMap[target.agent_id].activeTargets++;
-            }
-
-            // Update last collected time
-            if (target.last_collected) {
-              const currentLastCollected = agentTargetsMap[target.agent_id].lastCollected;
-              if (currentLastCollected === '-' ||
-                  new Date(target.last_collected) > new Date(currentLastCollected)) {
-                agentTargetsMap[target.agent_id].lastCollected = formatTimeAgo(new Date(target.last_collected));
-              }
-            }
+      // Count targets per agent
+      targets.forEach((target) => {
+        if (target.agent_id && agentTargetsMap[target.agent_id]) {
+          agentTargetsMap[target.agent_id].totalTargets++;
+          if (target.status === 'normal') {
+            agentTargetsMap[target.agent_id].activeTargets++;
           }
-        });
+          if (target.last_collected && target.last_collected !== '-') {
+            agentTargetsMap[target.agent_id].lastCollected = target.last_collected;
+          }
+        }
+      });
 
-        setAgentTargets(Object.values(agentTargetsMap));
-      }
+      setAgentTargets(Object.values(agentTargetsMap));
     } catch (error) {
       console.error('Failed to fetch agent targets:', error);
     } finally {
@@ -87,20 +70,6 @@ export function TargetListTable() {
     }
   };
 
-  const formatTimeAgo = (date: Date): string => {
-    const now = new Date();
-    const diffMs = now.getTime() - date.getTime();
-    const diffMins = Math.floor(diffMs / 60000);
-
-    if (diffMins < 1) return '방금 전';
-    if (diffMins < 60) return `${diffMins}분 전`;
-
-    const diffHours = Math.floor(diffMins / 60);
-    if (diffHours < 24) return `${diffHours}시간 전`;
-
-    const diffDays = Math.floor(diffHours / 24);
-    return `${diffDays}일 전`;
-  };
   const columns: Column<AgentTarget>[] = [
     { header: '에이전트명', accessor: 'agentName', className: 'font-medium' },
     { header: '서버 IP', accessor: 'serverIp' },

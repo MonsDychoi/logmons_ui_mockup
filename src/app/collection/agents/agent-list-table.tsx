@@ -26,40 +26,30 @@ export function AgentListTable() {
     try {
       setLoading(true);
 
-      // Fetch both agents and targets in parallel
-      const [agentsRes, targetsRes] = await Promise.all([
-        fetch('/api/collection/agents'),
-        fetch('/api/collection/targets')
+      const { mockAPI } = await import('@/lib/mock-data/collection');
+      const [agentsData, targetsData] = await Promise.all([
+        mockAPI.getAgents(),
+        mockAPI.getTargets()
       ]);
 
-      const agentsResult = await agentsRes.json();
-      const targetsResult = await targetsRes.json();
+      // Count targets per agent
+      const targetCountMap: { [key: string]: number } = {};
+      targetsData.forEach((target) => {
+        if (target.agent_id) {
+          targetCountMap[target.agent_id] = (targetCountMap[target.agent_id] || 0) + 1;
+        }
+      });
 
-      if (agentsResult.success && agentsResult.data) {
-        const agents = agentsResult.data;
-        const targets = targetsResult.success ? targetsResult.data || [] : [];
-
-        // Count targets per agent
-        const targetCountMap: { [key: string]: number } = {};
-        targets.forEach((target: any) => {
-          if (target.agent_id) {
-            targetCountMap[target.agent_id] = (targetCountMap[target.agent_id] || 0) + 1;
-          }
-        });
-
-        // Transform database data to UI format
-        const transformedAgents: Agent[] = agents.map((agent: any) => ({
-          id: agent.id,
-          name: agent.name,
-          serverIp: agent.server_ip,
-          status: agent.status as StatusType,
-          targetCount: targetCountMap[agent.id] || 0,
-          lastConnection: agent.last_connection
-            ? formatTimeAgo(new Date(agent.last_connection))
-            : '-'
-        }));
-        setAgents(transformedAgents);
-      }
+      // Transform to UI format
+      const transformedAgents: Agent[] = agentsData.map((agent) => ({
+        id: agent.id,
+        name: agent.name,
+        serverIp: agent.server_ip,
+        status: agent.status as StatusType,
+        targetCount: targetCountMap[agent.id] || 0,
+        lastConnection: agent.last_connected
+      }));
+      setAgents(transformedAgents);
     } catch (error) {
       console.error('Failed to fetch agents:', error);
     } finally {
@@ -67,20 +57,6 @@ export function AgentListTable() {
     }
   };
 
-  const formatTimeAgo = (date: Date): string => {
-    const now = new Date();
-    const diffMs = now.getTime() - date.getTime();
-    const diffMins = Math.floor(diffMs / 60000);
-
-    if (diffMins < 1) return '방금 전';
-    if (diffMins < 60) return `${diffMins}분 전`;
-
-    const diffHours = Math.floor(diffMins / 60);
-    if (diffHours < 24) return `${diffHours}시간 전`;
-
-    const diffDays = Math.floor(diffHours / 24);
-    return `${diffDays}일 전`;
-  };
   const columns: Column<Agent>[] = [
     { header: '에이전트명', accessor: 'name', className: 'font-medium' },
     { header: '서버 IP', accessor: 'serverIp' },

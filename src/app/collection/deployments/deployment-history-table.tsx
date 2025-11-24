@@ -37,44 +37,28 @@ export function DeploymentHistoryTable() {
     try {
       setLoading(true);
 
-      const [deploymentsRes, agentsRes] = await Promise.all([
-        fetch('/api/collection/deployments'),
-        fetch('/api/collection/agents')
+      const { mockAPI } = await import('@/lib/mock-data/collection');
+      const [deploymentsData, agentsData] = await Promise.all([
+        mockAPI.getDeployments(),
+        mockAPI.getAgents()
       ]);
-
-      const deploymentsResult = await deploymentsRes.json();
-      const agentsResult = await agentsRes.json();
 
       // Create agent ID to name mapping
       const agentMap: {[key: string]: string} = {};
-      if (agentsResult.success && agentsResult.data) {
-        agentsResult.data.forEach((agent: any) => {
-          agentMap[agent.id] = agent.name;
-        });
-      }
+      agentsData.forEach((agent) => {
+        agentMap[agent.id] = agent.name;
+      });
       setAgents(agentMap);
 
-      if (deploymentsResult.success && deploymentsResult.data) {
-        const transformedDeployments: Deployment[] = deploymentsResult.data.map((dep: any) => {
-          const duration = calculateDuration(dep.started_at, dep.completed_at);
-          return {
-            id: dep.id,
-            deployedAt: new Date(dep.started_at || dep.created_at).toLocaleString('sv-SE', {
-              year: 'numeric',
-              month: '2-digit',
-              day: '2-digit',
-              hour: '2-digit',
-              minute: '2-digit',
-              second: '2-digit'
-            }).replace('T', ' '),
-            agentName: agentMap[dep.agent_id] || 'Unknown',
-            task: `${dep.deployment_type} (${dep.version || 'N/A'})`,
-            status: mapDeploymentStatus(dep.status),
-            duration
-          };
-        });
-        setDeployments(transformedDeployments);
-      }
+      const transformedDeployments: Deployment[] = deploymentsData.map((dep) => ({
+        id: dep.id,
+        deployedAt: dep.timestamp,
+        agentName: dep.agent_name,
+        task: dep.action,
+        status: dep.status as StatusType,
+        duration: dep.duration
+      }));
+      setDeployments(transformedDeployments);
     } catch (error) {
       console.error('Failed to fetch deployments:', error);
     } finally {
@@ -82,29 +66,6 @@ export function DeploymentHistoryTable() {
     }
   };
 
-  const calculateDuration = (startedAt: string | null, completedAt: string | null): string => {
-    if (!startedAt || !completedAt) return '-';
-    const start = new Date(startedAt).getTime();
-    const end = new Date(completedAt).getTime();
-    const diffMs = end - start;
-    const diffSec = Math.floor(diffMs / 1000);
-    const minutes = Math.floor(diffSec / 60);
-    const seconds = diffSec % 60;
-
-    if (minutes > 0) {
-      return `${minutes}분 ${seconds}초`;
-    }
-    return `${seconds}초`;
-  };
-
-  const mapDeploymentStatus = (status: string): StatusType => {
-    switch (status) {
-      case 'completed': return 'success';
-      case 'failed': return 'failed';
-      case 'in_progress': return 'warning';
-      default: return 'inactive';
-    }
-  };
 
   const now = new Date();
   const filteredDeployments = deployments.filter((deployment) => {

@@ -39,21 +39,19 @@ export function ChannelListTable() {
   const fetchChannels = async () => {
     try {
       setLoading(true);
-      const response = await fetch('/api/collection/channels');
-      const result = await response.json();
+      const { mockAPI } = await import('@/lib/mock-data/collection');
+      const channelsData = await mockAPI.getChannels();
 
-      if (result.success && result.data) {
-        const transformedChannels: KafkaChannel[] = result.data.map((channel: any) => ({
-          id: channel.id,
-          channelName: channel.channel_name,
-          topicName: channel.topic_name,
-          partitions: channel.partitions,
-          offset: channel.offset_value?.toLocaleString() || '0',
-          status: channel.status as StatusType,
-          messageRate: channel.message_rate || '-'
-        }));
-        setChannels(transformedChannels);
-      }
+      const transformedChannels: KafkaChannel[] = channelsData.map((channel) => ({
+        id: channel.id,
+        channelName: channel.name,
+        topicName: `topic_${channel.name}`,
+        partitions: 3,
+        offset: (Math.floor(Math.random() * 100000)).toLocaleString(),
+        status: channel.status as StatusType,
+        messageRate: `${channel.target_count * 50}/s`
+      }));
+      setChannels(transformedChannels);
     } catch (error) {
       console.error('Failed to fetch channels:', error);
     } finally {

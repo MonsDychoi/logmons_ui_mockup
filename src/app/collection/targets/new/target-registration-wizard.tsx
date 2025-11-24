@@ -85,11 +85,9 @@ export function TargetRegistrationWizard() {
   useEffect(() => {
     const fetchAgents = async () => {
       try {
-        const response = await fetch('/api/collection/agents');
-        const result = await response.json();
-        if (result.success && result.data) {
-          setAgents(result.data);
-        }
+        const { mockAPI } = await import('@/lib/mock-data/collection');
+        const agentsData = await mockAPI.getAgents();
+        setAgents(agentsData);
       } catch (error) {
         console.error('Failed to fetch agents:', error);
       }
@@ -121,9 +119,10 @@ export function TargetRegistrationWizard() {
 
   const handleSubmit = async () => {
     try {
-      // Prepare collection_config as JSONB
+      const { mockAPI } = await import('@/lib/mock-data/collection');
+
+      // Prepare collection_config
       const collectionConfig = {
-        description: formData.description,
         input_type: formData.inputType,
         paths: formData.paths.filter(p => p.trim() !== ''),
         encoding: formData.encoding,
@@ -131,57 +130,24 @@ export function TargetRegistrationWizard() {
         multiline_pattern: formData.multilinePattern,
         multiline_negate: formData.multilineNegate === 'true',
         multiline_match: formData.multilineMatch,
-        custom_fields: formData.customFields,
-        // Syslog and TCP/UDP specific
         syslog_format: formData.syslogFormat,
         protocol: formData.protocol,
         listen_ip: formData.listenIp,
         listen_port: formData.listenPort,
-        max_message_size: formData.maxMessageSize,
-        tcp_framing: formData.tcpFraming,
-        tcp_delimiter: formData.tcpDelimiter,
-        tcp_timeout: formData.tcpTimeout,
-        max_connections: formData.maxConnections,
-        udp_read_buffer: formData.udpReadBuffer,
-        // Parsing
-        parsing_method: formData.parsingMethod,
-        json_keys_under_root: formData.jsonKeysUnderRoot,
-        json_overwrite_keys: formData.jsonOverwriteKeys,
-        json_add_error_key: formData.jsonAddErrorKey,
-        csv_columns: formData.csvColumns,
-        csv_delimiter: formData.csvDelimiter,
-        csv_trim_leading_space: formData.csvTrimLeadingSpace,
-        dissect_pattern: formData.dissectPattern,
-        // Output
-        channel_mode: formData.channelMode,
-        channel_name: formData.channelName,
-        output_destination: formData.outputDestination,
-        index_pattern: formData.indexPattern,
-        date_format: formData.dateFormat
+        parsing_method: formData.parsingMethod
       };
 
-      // Prepare target data matching DB schema
-      const targetData = {
+      // Create target using mock API
+      await mockAPI.createTarget({
         agent_id: formData.agentId,
         name: formData.name,
-        type: formData.inputType,
+        type: formData.inputType as 'file' | 'syslog' | 'tcp-udp',
         status: 'normal',
-        size: null,
-        last_collected: null,
+        collection_rate: '0',
+        last_collected: '-',
+        channel_name: formData.channelName || `log_mons_${formData.name}`,
         collection_config: collectionConfig
-      };
-
-      const response = await fetch('/api/collection/targets', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(targetData)
       });
-
-      const result = await response.json();
-
-      if (!response.ok || !result.success) {
-        throw new Error(result.error || 'Failed to create target');
-      }
 
       alert('수집 대상이 성공적으로 등록되었습니다.');
       router.push('/collection/targets');
