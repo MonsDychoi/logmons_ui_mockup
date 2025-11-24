@@ -27,7 +27,7 @@ export interface Channel {
   id: string;
   name: string;
   target_count: number;
-  status: 'normal' | 'delayed' | 'waiting';
+  status: 'normal' | 'warning' | 'inactive';
 }
 
 export interface Deployment {
@@ -207,7 +207,7 @@ export const mockChannels: Channel[] = [
     id: '3',
     name: 'app-logs',
     target_count: 2,
-    status: 'delayed'
+    status: 'warning'
   },
   {
     id: '4',
@@ -219,7 +219,7 @@ export const mockChannels: Channel[] = [
     id: '5',
     name: 'db-logs',
     target_count: 0,
-    status: 'waiting'
+    status: 'inactive'
   }
 ];
 
