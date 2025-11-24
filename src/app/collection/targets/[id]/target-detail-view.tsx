@@ -43,51 +43,42 @@ export function TargetDetailView({ targetId }: { targetId: string }) {
     try {
       setLoading(true);
 
-      // Fetch agent and targets data in parallel
-      const [agentRes, targetsRes] = await Promise.all([
-        fetch(`/api/collection/agents/${targetId}`),
-        fetch('/api/collection/targets')
+      const { mockAPI } = await import('@/lib/mock-data/collection');
+      const [agents, targets] = await Promise.all([
+        mockAPI.getAgents(),
+        mockAPI.getTargets()
       ]);
 
-      const agentResult = await agentRes.json();
-      const targetsResult = await targetsRes.json();
+      const agent = agents.find(a => a.id === targetId);
+      if (agent) {
+        // Filter targets for this agent
+        const agentTargets = targets
+          .filter(t => t.agent_id === targetId)
+          .map(target => {
+            const paths = target.collection_config?.paths || [];
+            const pathString = Array.isArray(paths) && paths.length > 0
+              ? paths.join(', ')
+              : '-';
 
-      if (agentResult.success && agentResult.data) {
-        const agent = agentResult.data;
+            return {
+              id: target.id,
+              name: target.name,
+              type: target.type,
+              path: pathString,
+              status: target.status as StatusType,
+              size: '-'
+            };
+          });
 
-        // Filter targets for this agent and transform to CollectionConfig format
-        const agentTargets = targetsResult.success && targetsResult.data
-          ? targetsResult.data
-              .filter((t: any) => t.agent_id === targetId)
-              .map((target: any) => {
-                // Extract paths from collection_config JSONB field
-                const paths = target.collection_config?.paths || [];
-                const pathString = Array.isArray(paths) && paths.length > 0
-                  ? paths.join(', ')
-                  : '-';
-
-                return {
-                  id: target.id,
-                  name: target.name,
-                  type: target.type || target.collection_config?.input_type || 'File',
-                  path: pathString,
-                  status: target.status as StatusType,
-                  size: target.size || '-'
-                };
-              })
-          : [];
-
-        // Format target detail from agent data
+        // Format target detail
         const targetDetail: TargetDetail = {
           id: agent.id,
           agentName: agent.name,
           serverIp: agent.server_ip,
           status: agent.status as StatusType,
-          version: agent.version || '-',
-          installPath: agent.install_path || '-',
-          lastCollected: agent.last_connection
-            ? formatTimeAgo(new Date(agent.last_connection))
-            : '-',
+          version: agent.version,
+          installPath: agent.install_path,
+          lastCollected: agent.last_connected,
           configs: agentTargets
         };
 
@@ -100,20 +91,6 @@ export function TargetDetailView({ targetId }: { targetId: string }) {
     }
   };
 
-  const formatTimeAgo = (date: Date): string => {
-    const now = new Date();
-    const diffMs = now.getTime() - date.getTime();
-    const diffMins = Math.floor(diffMs / 60000);
-
-    if (diffMins < 1) return '방금 전';
-    if (diffMins < 60) return `${diffMins}분 전`;
-
-    const diffHours = Math.floor(diffMins / 60);
-    if (diffHours < 24) return `${diffHours}시간 전`;
-
-    const diffDays = Math.floor(diffHours / 24);
-    return `${diffDays}일 전`;
-  };
 
   if (loading) {
     return <div className="text-center py-10">로딩 중...</div>;

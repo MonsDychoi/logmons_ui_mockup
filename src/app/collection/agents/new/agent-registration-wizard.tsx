@@ -148,50 +148,25 @@ export function AgentRegistrationWizard() {
 
   const handleSubmit = async () => {
     try {
+      const { mockAPI } = await import('@/lib/mock-data/collection');
+
       // Get filebeat info
       const filebeatInfo = formData.filebeatList.find(
         (fb) => fb.path === formData.selectedFilebeat
       ) || formData.filebeatList[0];
 
-      // Prepare data for API (matching agents table schema)
-      const agentData = {
+      // Create agent using mock API
+      await mockAPI.createAgent({
         name: formData.name,
         server_ip: formData.serverIp,
-        version: filebeatInfo?.version || '',
+        version: filebeatInfo?.version || '8.13.0',
         install_path: filebeatInfo?.path || formData.installPaths[0] || '',
-        status: formData.connectionStatus === 'success' ? 'normal' : 'inactive',
-        collection_rate: '0%',
-        processed_events: 0,
-        error_rate: '0%',
-        last_connection: formData.connectionStatus === 'success' ? new Date().toISOString() : null
-      };
-
-      const response = await fetch('/api/collection/agents', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(agentData)
+        status: formData.connectionStatus === 'success' ? 'normal' : 'disconnected',
+        last_connected: formData.connectionStatus === 'success' ? '방금 전' : '-',
+        target_count: 0
       });
 
-      const result = await response.json();
-
-      if (!result.success) {
-        // Handle specific error cases
-        const errorMsg = result.error || 'Failed to save agent';
-
-        if (errorMsg.includes('duplicate key') || errorMsg.includes('agents_name_key')) {
-          alert(`이미 존재하는 에이전트 이름입니다.\n에이전트명: "${formData.name}"\n\n다른 이름을 사용해주세요.`);
-          setCurrentStep(1); // Go back to step 1 to change name
-          return;
-        }
-
-        throw new Error(errorMsg);
-      }
-
-      console.log('Agent saved successfully:', result.data);
-
-      // Navigate back to agents list after successful registration
+      alert('에이전트가 성공적으로 등록되었습니다.');
       router.push('/collection/agents');
     } catch (error) {
       console.error('Error saving agent:', error);

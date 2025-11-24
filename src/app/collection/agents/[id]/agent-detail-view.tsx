@@ -52,29 +52,23 @@ export function AgentDetailView({ agentId }: { agentId: string }) {
     try {
       setLoading(true);
 
-      // Fetch agent and targets data in parallel
-      const [agentRes, targetsRes] = await Promise.all([
-        fetch(`/api/collection/agents/${agentId}`),
-        fetch('/api/collection/targets')
+      const { mockAPI } = await import('@/lib/mock-data/collection');
+      const [agents, targets] = await Promise.all([
+        mockAPI.getAgents(),
+        mockAPI.getTargets()
       ]);
 
-      const agentResult = await agentRes.json();
-      const targetsResult = await targetsRes.json();
-
-      if (agentResult.success && agentResult.data) {
-        const agentData = agentResult.data;
-
+      const agentData = agents.find(a => a.id === agentId);
+      if (agentData) {
         // Filter targets for this agent
-        const agentTargets: AgentTarget[] = targetsResult.success && targetsResult.data
-          ? targetsResult.data
-              .filter((t: any) => t.agent_id === agentId)
-              .map((target: any) => ({
-                id: target.id,
-                name: target.name,
-                status: target.status as StatusType,
-                size: target.size || '-'
-              }))
-          : [];
+        const agentTargets: AgentTarget[] = targets
+          .filter(t => t.agent_id === agentId)
+          .map(target => ({
+            id: target.id,
+            name: target.name,
+            status: target.status as StatusType,
+            size: '-'
+          }));
 
         const activeTargets = agentTargets.filter(t => t.status === 'normal').length;
 
@@ -83,15 +77,13 @@ export function AgentDetailView({ agentId }: { agentId: string }) {
           id: agentData.id,
           name: agentData.name,
           serverIp: agentData.server_ip,
-          version: agentData.version || '-',
-          installPath: agentData.install_path || '-',
+          version: agentData.version,
+          installPath: agentData.install_path,
           status: agentData.status as StatusType,
-          collectionRate: agentData.collection_rate || '-',
-          processedEvents: agentData.processed_events || 0,
-          errorRate: agentData.error_rate || '-',
-          lastConnection: agentData.last_connection
-            ? formatTimeAgo(new Date(agentData.last_connection))
-            : '-',
+          collectionRate: `${agentTargets.length * 100}/s`,
+          processedEvents: agentTargets.length * 15000,
+          errorRate: '0.1%',
+          lastConnection: agentData.last_connected,
           targets: agentTargets,
           targetCount: agentTargets.length,
           activeTargetCount: activeTargets
@@ -106,20 +98,6 @@ export function AgentDetailView({ agentId }: { agentId: string }) {
     }
   };
 
-  const formatTimeAgo = (date: Date): string => {
-    const now = new Date();
-    const diffMs = now.getTime() - date.getTime();
-    const diffMins = Math.floor(diffMs / 60000);
-
-    if (diffMins < 1) return '방금 전';
-    if (diffMins < 60) return `${diffMins}분 전`;
-
-    const diffHours = Math.floor(diffMins / 60);
-    if (diffHours < 24) return `${diffHours}시간 전`;
-
-    const diffDays = Math.floor(diffHours / 24);
-    return `${diffDays}일 전`;
-  };
 
   if (loading) {
     return <div className="text-center py-10">로딩 중...</div>;
