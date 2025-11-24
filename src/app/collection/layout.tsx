@@ -1,4 +1,3 @@
-import KBar from '@/components/kbar';
 import AppSidebar from '@/components/layout/app-sidebar';
 import Header from '@/components/layout/header';
 import { SidebarInset, SidebarProvider } from '@/components/ui/sidebar';
@@ -19,16 +18,22 @@ export default async function CollectionLayout({
   const cookieStore = await cookies();
   const defaultOpen = cookieStore.get("sidebar_state")?.value === "true"
   return (
-    <KBar>
-      <SidebarProvider defaultOpen={defaultOpen}>
-        <AppSidebar />
-        <SidebarInset>
-          <Header />
-          {/* page main content */}
-          {children}
-          {/* page main content ends */}
-        </SidebarInset>
-      </SidebarProvider>
-    </KBar>
+    <SidebarProvider defaultOpen={defaultOpen}>
+      <div className="flex flex-col min-h-screen w-full">
+        {/* Header - 전체 너비, 최상단 */}
+        <Header />
+
+        {/* Sidebar + Main Content */}
+        <div className="flex flex-1 overflow-hidden">
+          <AppSidebar />
+          <SidebarInset className="flex flex-1 flex-col overflow-hidden">
+            {/* Page Content */}
+            <main className="flex-1 overflow-y-auto">
+              {children}
+            </main>
+          </SidebarInset>
+        </div>
+      </div>
+    </SidebarProvider>
   );
 }
