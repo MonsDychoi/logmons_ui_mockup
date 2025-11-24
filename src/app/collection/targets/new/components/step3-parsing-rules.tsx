@@ -198,6 +198,58 @@ export function Step3ParsingRules({ formData, updateFormData, setFormData }: Ste
               </div>
             </div>
           )}
+
+          {/* Processing Options for Dissect */}
+          <div className="space-y-3">
+            <Label className="text-sm font-semibold">처리 옵션 (선택, 디폴트 제공)</Label>
+
+            <div className="flex items-center space-x-2">
+              <Checkbox
+                id="dissect-add-error"
+                className="data-[state=checked]:bg-[#3ecf8e] data-[state=checked]:border-[#3ecf8e]"
+              />
+              <Label htmlFor="dissect-add-error" className="text-sm font-normal cursor-pointer">
+                타입 변환 (숫자/boolean 자동 변환)
+              </Label>
+            </div>
+
+            <div className="flex items-center space-x-2">
+              <Checkbox
+                id="dissect-drop-event"
+                checked={formData.dropEvent}
+                onCheckedChange={(checked) => updateFormData('dropEvent', checked as boolean)}
+                className="data-[state=checked]:bg-[#3ecf8e] data-[state=checked]:border-[#3ecf8e]"
+              />
+              <Label htmlFor="dissect-drop-event" className="text-sm font-normal cursor-pointer">
+                파싱 실패 시 원본 유지
+              </Label>
+            </div>
+             <div className="space-y-2">
+              <Label htmlFor="json-target-field" className="text-sm">
+                파싱 대상 필드 (선택, 디폴트: message)
+              </Label>
+              <Select
+                value={formData.jsonTargetField}
+                onValueChange={(value) => updateFormData('jsonTargetField', value)}
+              >
+                <SelectTrigger id="json-target-field">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="message">message</SelectItem>
+                  <SelectItem value="log">log</SelectItem>
+                  <SelectItem value="data">data</SelectItem>
+                  <SelectItem value="@message">@message</SelectItem>
+                </SelectContent>
+              </Select>
+              <p className="text-xs text-muted-foreground">
+                💡 대부분 기본값(message)을 사용합니다
+              </p>
+              <p className="text-xs text-muted-foreground">
+                💡 특수한 경우에만 변경하세요 (Kubernetes 로그: log 필드 등)
+              </p>
+            </div>
+          </div>
         </div>
       )}
 
@@ -550,6 +602,60 @@ export function Step3ParsingRules({ formData, updateFormData, setFormData }: Ste
                 </div>
               );
             })()}
+          </div>
+        </div>
+
+        {/* Pattern Parsing Additional Settings */}
+        <div className="space-y-4 p-4 border rounded-lg bg-muted/30">
+          <div className="space-y-1">
+            <h4 className="text-sm font-semibold">패턴 파싱 상세 설정</h4>
+            <p className="text-xs text-muted-foreground">패턴 파싱 관련 추가 옵션</p>
+          </div>
+
+          <div className="space-y-4 pl-0">
+            {/* 처리 대상 필드 */}
+            <div className="space-y-2">
+              <Label htmlFor="parsing-target-field" className="text-sm">
+                처리 대상 필드 (선택, 디폴트: message)
+              </Label>
+              <Select defaultValue="message">
+                <SelectTrigger id="parsing-target-field" className="text-sm">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="message">message</SelectItem>
+                  <SelectItem value="log">log</SelectItem>
+                  <SelectItem value="data">data</SelectItem>
+                  <SelectItem value="@message">@message</SelectItem>
+                </SelectContent>
+              </Select>
+              <p className="text-xs text-muted-foreground">
+                💡 대부분 기본값(message)을 사용합니다
+              </p>
+            </div>
+
+            {/* 타입 변환 */}
+            <div className="flex items-center space-x-2">
+              <Checkbox
+                id="auto-type-convert"
+                defaultChecked
+                className="data-[state=checked]:bg-[#3ecf8e] data-[state=checked]:border-[#3ecf8e]"
+              />
+              <Label htmlFor="auto-type-convert" className="text-sm font-normal cursor-pointer">
+                타입 변환 (숫자/boolean 자동 변환)
+              </Label>
+            </div>
+
+            {/* 파싱 완료 시 입력 유지 */}
+            <div className="flex items-center space-x-2">
+              <Checkbox
+                id="keep-original-message"
+                className="data-[state=checked]:bg-[#3ecf8e] data-[state=checked]:border-[#3ecf8e]"
+              />
+              <Label htmlFor="keep-original-message" className="text-sm font-normal cursor-pointer">
+                파싱 완료 시 입력 유지 (파싱 대상 필드(message)를 사용합니다)
+              </Label>
+            </div>
           </div>
         </div>
       </div>
